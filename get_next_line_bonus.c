@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: szeroual <szeroual@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/21 01:42:53 by szeroual          #+#    #+#             */
-/*   Updated: 2024/02/25 06:56:08 by szeroual         ###   ########.fr       */
+/*   Created: 2024/02/21 01:42:34 by szeroual          #+#    #+#             */
+/*   Updated: 2024/02/24 03:31:39 by szeroual         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_substr(char *s, unsigned int start, size_t len)
 {
@@ -115,16 +115,16 @@ char	*get_rest(char *save)
 
 char	*get_next_line(int fd)
 {
-	char		*line;
-	static char	*read_line;
+	char			*line;
+	static char		*read_line[MAX_FD];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	else
-		read_line = readfile(fd, read_line);
-	if (!read_line)
+		read_line[fd] = readfile(fd, read_line[fd]);
+	if (!read_line[fd])
 		return (NULL);
-	line = extarct_line(read_line);
-	read_line = get_rest(read_line);
+	line = extarct_line(read_line[fd]);
+	read_line[fd] = get_rest(read_line[fd]);
 	return (line);
 }
